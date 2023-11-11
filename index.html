@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>ABI</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <button id="open-directory-button" onclick="openDirectory()">Open Directory</button>
+    <div id="file-list"></div>
+    <div id="file-viewer">
+        <div id="trial-links"></div>
+        <div id="video-and-result" style="display: none;">
+            <a id="back-to-trials" class="back-to-trials" onclick="showTrialLinks()" style="display: none;">Go back to
+                trials</a>
+            <iframe id="video-iframe" src="" frameborder="0"></iframe>
+            <div id="json-table-container" style="display: none;">
+                <table id="json-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>sp_start_time</th>
+                            <th>qp_end_time</th>
+                        </tr>
+                    </thead>
+                    <tbody id="json-table-body"></tbody>
+                </table>
+                <button onclick="saveChanges()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="index.js"></script>
+</body>
+
+</html>

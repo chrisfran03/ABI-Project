@@ -1,0 +1,38 @@
+.directory-link {
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+}
+
+iframe {
+    border: 1px solid #ccc;
+    width: 48%;
+    /* Adjust the width as needed */
+    height: 300px;
+    /* Adjust the height as needed */
+    float: left;
+}
+
+table {
+    border-collapse: collapse;
+    width: 48%;
+    /* Adjust the width as needed */
+    margin-top: 10px;
+}
+
+th,
+td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.back-to-trials {
+    cursor: pointer;
+    color: red;
+    text-decoration: underline;
+}

@@ -1,6 +1,24 @@
 let jsonData; // Global variable to store the JSON data
 let resultFolderHandle; // Global variable to store the folder handle of the "result" folder
 
+const target = document.getElementById("drag-drop-area");
+const dropzoneText = document.getElementById("box-container")
+target.addEventListener("dragenter", (event) => {
+    // highlight potential drop target when the draggable element enters it
+    if (event.target.classList.contains("dropzone")) {
+        event.target.classList.add("dragover");
+        dropzoneText.classList.add("pointer");
+    }
+});
+
+target.addEventListener("dragleave", (event) => {
+    // reset background of potential drop target when the draggable element leaves it
+    if (event.target.classList.contains("dropzone")) {
+        event.target.classList.remove("dragover");
+        dropzoneText.classList.remove("pointer");
+    }
+});
+
 async function openDirectory() {
     // Request directory handle
     const directoryHandle = await window.showDirectoryPicker();
@@ -12,10 +30,35 @@ async function openDirectory() {
         await listTrialFolders(trialsFolderHandle, document.getElementById('trial-links'));
     } else {
         // If "trials" folder doesn't exist, display a message
-        const messageElement = document.createElement('p');
-        messageElement.textContent = 'No "trials" folder found.';
-        document.getElementById('trial-links').appendChild(messageElement);
+        alert(" No trial folders found! Please upload Sampledata folder ");
     }
+}
+async function handleDrop(event) {
+    event.preventDefault();
+    const fileHandlesPromises = [...event.dataTransfer.items]
+        .filter((item) => item.kind === 'file')
+        .map((item) => item.getAsFileSystemHandle());
+
+    for await (const handle of fileHandlesPromises) {
+        if (handle.kind === 'directory') {
+            const trialsFolderHandle = await findTrialsFolder(handle);
+            if (trialsFolderHandle) {
+                await listTrialFolders(trialsFolderHandle, document.getElementById('trial-links'));
+            } else {
+                // If "trials" folder doesn't exist, display a message
+                alert(" No trial folders found! Please upload the Sampledata folder ");
+                location.reload();
+            }
+        }
+        else {
+            alert(" Please upload the Sampledata folder ");
+            location.reload();
+        }
+    }
+}
+
+function handleDragOver(event) {
+    event.preventDefault();
 }
 
 async function findTrialsFolder(directoryHandle) {
@@ -27,7 +70,33 @@ async function findTrialsFolder(directoryHandle) {
     return null;
 }
 
+async function itemHandleToDirectoryHandle(itemHandle) {
+    if (itemHandle.getAsFileSystemHandle) {
+        return await itemHandle.getAsFileSystemHandle();
+    } else if (itemHandle.isFile) {
+        // If it's a file, get the file and then the directory from its handle
+        const file = await itemHandle.getFile();
+        const directory = await file.getDirectory();
+        return directory;
+    } else {
+        throw new Error('Unsupported itemHandle type');
+    }
+}
+async function findTrialsFolder(directoryHandle) {
+    for await (const entryHandle of directoryHandle.values()) {
+        if (entryHandle.name === 'trials' && entryHandle.kind === 'directory') {
+            return entryHandle;
+        }
+    }
+    return null;
+}
+
 async function listTrialFolders(trialsFolderHandle, container) {
+
+    const DragDropArea = document.getElementById("drag-drop-area");
+
+    DragDropArea.style.display = 'none';
+
     for await (const entryHandle of trialsFolderHandle.values()) {
         if (entryHandle.kind === 'directory' && entryHandle.name.startsWith('trial')) {
             // If it's a directory that starts with "trial," create a clickable link to view video and result
@@ -44,7 +113,8 @@ async function listTrialFolders(trialsFolderHandle, container) {
 }
 
 async function showTrialContent(trialFolderHandle) {
-    const openDirectoryButton = document.getElementById('open-directory-button');
+
+    const DragDropArea = document.getElementById("drag-drop-area");
     const trialLinks = document.getElementById('trial-links');
     const backToTrials = document.getElementById('back-to-trials');
     const videoAndResult = document.getElementById('video-and-result');
@@ -53,7 +123,8 @@ async function showTrialContent(trialFolderHandle) {
 
 
 
-    openDirectoryButton.style.display = 'none';
+
+    DragDropArea.style.display = 'none';
     trialLinks.style.display = 'none';
     backToTrials.style.display = 'block';
     videoAndResult.style.display = 'block';
@@ -160,13 +231,14 @@ async function saveChanges() {
 }
 
 function showTrialLinks() {
-    const openDirectoryButton = document.getElementById('open-directory-button');
+
+    const DragDropArea = document.getElementById("drag-drop-area");
     const trialLinks = document.getElementById('trial-links');
     const backToTrials = document.getElementById('back-to-trials');
     const videoAndResult = document.getElementById('video-and-result');
     const jsonTableContainer = document.getElementById('json-table-container');
 
-    openDirectoryButton.style.display = 'block';
+    DragDropArea.style.display = 'none';
     trialLinks.style.display = 'block';
     backToTrials.style.display = 'none';
     videoAndResult.style.display = 'none';

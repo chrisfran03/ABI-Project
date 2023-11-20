@@ -19,6 +19,51 @@ target.addEventListener("dragleave", (event) => {
     }
 });
 
+// creating custom player controls for the video
+
+// Video
+var video = document.getElementById("video-iframe");
+// Buttons
+var playButton = document.getElementById("play-pause");
+// Sliders
+var seekBar = document.getElementById("seek-bar");
+
+var timeDisplay = document.getElementById("display-time");
+
+// Event listener for the play/pause button
+playButton.addEventListener("click", function () {
+    if (video.paused == true) {
+        // Play the video
+        video.play();
+        // Update the button text to 'Pause'
+        playButton.innerHTML = "Pause";
+    } else {
+        // Pause the video
+        video.pause();
+        // Update the button text to 'Play'
+        playButton.innerHTML = "Play";
+    }
+});
+// Event listener for the seek bar
+seekBar.addEventListener("change", function () {
+    // Calculate the new time
+    var time = video.duration * (seekBar.value / 100);
+
+    // Update the video time
+    video.currentTime = time;
+
+});
+// Update the seek bar as the video plays
+video.addEventListener("timeupdate", function () {
+    // Calculate the slider value
+    var value = (100 / video.duration) * video.currentTime;
+    // Update the slider value
+    seekBar.value = value;
+    timeDisplay.innerText = video.currentTime;
+});
+
+
+
 async function openDirectory() {
     // Request directory handle
     const directoryHandle = await window.showDirectoryPicker();
@@ -187,9 +232,18 @@ function displayJsonData(jsonData, tableBody) {
                 item.qp_end_time = endTimeCell.textContent;
             });
 
+            const actionCell = document.createElement('td');
+            const logButton = document.createElement('button');
+            logButton.textContent = 'Jump to OKN';
+            logButton.addEventListener('click', () => {
+                video.currentTime = item.sp_start_time;
+            });
+            actionCell.appendChild(logButton);
+
             rowData.appendChild(idCell);
             rowData.appendChild(startTimeCell);
             rowData.appendChild(endTimeCell);
+            rowData.appendChild(actionCell);
             tableBody.appendChild(rowData);
         }
     }

@@ -40,24 +40,40 @@
     <div id="file-viewer">
         <div id="trial-links"></div>
         <div id="video-and-result" style="display: none;">
-            <a id="back-to-trials" class="back-to-trials" onclick="showTrialLinks()" style="display: none;">Go back to
-                trials</a>
-            <video id="video-iframe" controls autoplay>
-                <source src="" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-            <div id="json-table-container" style="display: none;">
-                <table id="json-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>sp_start_time</th>
-                            <th>qp_end_time</th>
-                        </tr>
-                    </thead>
-                    <tbody id="json-table-body"></tbody>
-                </table>
-                <button id="" onclick="saveChanges()">Save Changes</button>
+            <div class="top-links">
+                <a id="back-to-trials" class="back-to-trials" onclick="showTrialLinks()" style="display: none;">Go back
+                    to
+                    trials</a>
+                <button id="save-button" onclick="saveChanges()">Save Changes</button>
+            </div>
+            <div class="grid-container">
+                <div class="video-container">
+                    <video id="video-iframe">
+                        <source src="" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div id="video-controls">
+                        <button type="button" id="play-pause">Play</button>
+                        <input type="range" id="seek-bar" value="0">
+                        <div id="display-time"></div>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <div id="json-table-container" style="display: none;">
+                        <table id="json-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>sp_start_time</th>
+                                    <th>qp_end_time</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="json-table-body"></tbody>
+                        </table>
+
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -298,3 +298,17 @@ function showTrialLinks() {
     videoAndResult.style.display = 'none';
     jsonTableContainer.style.display = 'none';
 }
+
+function rotateVideo(direction) {
+    var video = document.getElementById('video-iframe');
+    var currentRotation = parseInt(video.getAttribute('data-rotation') || 0, 10);
+
+    if (direction === 'clockwise') {
+        currentRotation += 90;
+    } else {
+        currentRotation -= 90;
+    }
+
+    video.style.transform = 'rotate(' + currentRotation + 'deg)';
+    video.setAttribute('data-rotation', currentRotation);
+}

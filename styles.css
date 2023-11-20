@@ -19,7 +19,7 @@
 }
 
 .dropzone {
-    background-color: #e4e4e4;
+    background-color: #dadada;
     outline: 2px dashed #525252;
     outline-offset: -10px;
     transition: outline-offset .15s ease-in-out, background-color .15s linear;
@@ -29,7 +29,7 @@
 .dropzone.dragover {
     outline-offset: -20px;
     outline-color: #525252;
-    background-color: #ffffff;
+    background-color: #eeeeee;
 
 }
 
@@ -67,20 +67,45 @@
     text-decoration: underline;
 }
 
+.top-links {
+    display: flex;
+    justify-content: space-between;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+
+#video-controls {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#play-pause {
+    width: 100px;
+}
+
+#display-time {
+    background-color: red;
+    width: 100px;
+}
+
 video {
     border: 1px solid #ccc;
-    width: 48%;
+    display: block;
+    width: 100%;
     /* Adjust the width as needed */
     height: 500px;
     /* Adjust the height as needed */
-    float: left;
 }
+
 
 table {
     border-collapse: collapse;
-    width: 48%;
+    width: 100%;
     /* Adjust the width as needed */
-    margin-top: 10px;
 }
 
 th,

@@ -30,6 +30,8 @@ var seekBar = document.getElementById("seek-bar");
 
 var timeDisplay = document.getElementById("display-time");
 
+var durationDisplay = document.getElementById("display-duration");
+
 // Event listener for the play/pause button
 playButton.addEventListener("click", function () {
     if (video.paused == true) {
@@ -57,9 +59,13 @@ seekBar.addEventListener("change", function () {
 video.addEventListener("timeupdate", function () {
     // Calculate the slider value
     var value = (100 / video.duration) * video.currentTime;
-    // Update the slider value
+    // Updating the slider value
     seekBar.value = value;
+    //Display current time of the video
     timeDisplay.innerText = video.currentTime;
+    //Display the duration of the video
+    //durationDisplay.innerText = video.duration;
+
 });
 
 
@@ -75,9 +81,12 @@ async function openDirectory() {
         await listTrialFolders(trialsFolderHandle, document.getElementById('trial-links'));
     } else {
         // If "trials" folder doesn't exist, display a message
-        alert(" No trial folders found! Please upload Sampledata folder ");
+        alert("Please upload the Sampledata folder ");
+        location.reload();
     }
 }
+
+
 async function handleDrop(event) {
     event.preventDefault();
     const fileHandlesPromises = [...event.dataTransfer.items]
@@ -165,9 +174,6 @@ async function showTrialContent(trialFolderHandle) {
     const videoAndResult = document.getElementById('video-and-result');
     const jsonTableContainer = document.getElementById('json-table-container');
     const jsonTableBody = document.getElementById('json-table-body');
-
-
-
 
     DragDropArea.style.display = 'none';
     trialLinks.style.display = 'none';

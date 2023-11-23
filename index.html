@@ -15,7 +15,7 @@
     <nav class="navbar bg-dark border-bottom border-body" data-bs-theme="dark">
         <div class="container-fluid">
             <a class="navbar-brand" href="index.html">
-                Videotate
+                ABI
             </a>
         </div>
     </nav>
@@ -41,9 +41,10 @@
         <div id="trial-links"></div>
         <div id="video-and-result" style="display: none;">
             <div class="top-links">
-                <a id="back-to-trials" class="back-to-trials" onclick="showTrialLinks()" style="display: none;">Go back
+                <button id="back-to-trials" class="back-to-trials" onclick="showTrialLinks()" style="display: none;">Go
+                    back
                     to
-                    trials</a>
+                    trials</button>
                 <button id="save-button" onclick="saveChanges()">Save Changes</button>
             </div>
             <div class="grid-container">
@@ -56,6 +57,7 @@
                         <button type="button" id="play-pause">Play</button>
                         <input type="range" id="seek-bar" value="0">
                         <div id="display-time"></div>
+                        <div id="display-duration"></div>
                         <div id="rotate-video-button">
                             <button type="button" id="rotate-clockwise" onclick="rotateVideo('clockwise')">Rotate
                                 Clockwise</button>
